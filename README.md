@@ -3,19 +3,16 @@ Tuckman Questionnare for teams101x
 
 # Usage
 
-## Course Tool
-
-### Teams101x
-
-#### Section 1: What is a team? The lifecycle of teams
+### Course Tool - Teams101x - Section 1: What is a team? The lifecycle of teams
 
 The questionnaire will help you understand what stage your team operates. This is based on the [Tuckman Model](Tuckman Model) of Forming, Storming, Norming and Performing. 
 
 
-## Installation 
+# Installation 
 
 ### Files
-#### config.php
+
+..* config.php
 
 once cloned, create a file called "config.php" and add the following with your details in place of the placeholder values
 
@@ -41,11 +38,11 @@ once cloned, create a file called "config.php" and add the following with your d
 
 ### Database
 #### MySQL
-##### Version Ver 14.14 Distrib 5.1.73, for redhat-linux-gnu (x86_64) using readline 5.1
+> Version Ver 14.14 Distrib 5.1.73, for redhat-linux-gnu (x86_64) using readline 5.1
 
 #### Tables
 
-#### Responses
+..* Responses
 
 ```sql
 
