@@ -534,7 +534,19 @@ if($lti->is_valid()) {
 		var currentStatus = 'unfinished';
 		var survey_score = null;
 		
-		$('#submitButton').click(function(event){
+		$('#saveButton').click(function(event){
+			
+			save();
+
+		});
+		
+		$('#resetButton').click(function(event){
+			
+			reset();
+			
+		});
+		
+		function save(){
 			
 			var status = {};
 			var statusString;
@@ -606,11 +618,28 @@ if($lti->is_valid()) {
 				  console.log(error);
 			  }
 			});
+
+			
+		}
+		
+		function reset(){
+			
+			console.log('reset');
 			
 			
+			$('.question_container').each(function(){
+				$(this).find('.question_input').each(function(ind, obj){
+					$(obj).removeAttr('checked');
+				});				
+			});
 			
-			event.preventDefault();
-		});
+			save();
+			
+			update_feedbackBars(calculateScore());
+			
+			
+		}
+		
 		
 		
 		var previous_response_status = '<?php echo $pre_responsestatus; ?>';
@@ -658,6 +687,9 @@ if($lti->is_valid()) {
 			
 			
 		}
+		
+		
+		update_feedbackBars(calculateScore());
 		
 		
 		function calculateScore(){
