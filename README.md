@@ -12,7 +12,7 @@ The questionnaire will help you understand what stage your team operates. This i
 
 ### Files
 
-..* config.php
+...* config.php
 
 once cloned, create a file called "config.php" and add the following with your details in place of the placeholder values
 
@@ -42,7 +42,7 @@ once cloned, create a file called "config.php" and add the following with your d
 
 #### Tables
 
-..* Responses
+...* Responses
 
 ```sql
 
