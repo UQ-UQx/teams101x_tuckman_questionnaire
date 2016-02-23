@@ -36,6 +36,25 @@ if($lti->is_valid()) {
 
 </head> 
 <body>
+	
+	<div class='feedback_text'>
+	
+	<p>This questionnaire is to help you assess what stage your team normally operates. It is based on the <a href="http://www.nwlink.com/~donclark/leader/leadtem2.html"><em>Tuckman Model</em></a> of&nbsp; <strong>Forming, Storming, Norming, and Performing</strong>. The lowest score possible for a stage is 8 (Almost never) while the highest score possible for a stage is 40 (Almost always).</p>
+<p>The highest of the four scores indicates which stage you perceive your team to normally operates in. If your highest score is 32 or more, it is a strong indicator of the stage your team is in.</p>
+<p>The lowest of the three scores is an indicator of the stage your team is least like. If your lowest score is 16 or less, it is a strong indicator that your team does not operate this way.</p>
+<p>If two of the scores are close to the same, you are probably going through a transition phase, except:</p>
+<ul>
+<li>If you score high in both the Forming and Storming Phases then you are in the Storming Phase</li>
+<li>If you score high in both the Norming and Performing Phases then you are in the Performing Stage</li>
+</ul>
+<p>If there is only a small difference between three or four scores, then this indicates that you have no clear perception of the way your team operates, the team's performance is highly variable, or that you are in the storming phase (this phase can be extremely volatile with high and low points).</p>
+	<b>AMMEND THIS TEXT, IT IS COPIED FROM - http://www.nwlink.com/~donclark/leader/teamsuv.html AS A PLACEHOLDER</b>
+
+	
+</div>
+
+
+	
 		<?php
 
 	
@@ -91,24 +110,43 @@ if($lti->is_valid()) {
 		
 		//define scale of the survey and questions
 		
-		$scale = 4;
+		$scale = 5;
 		$questions = array(	
 		
-						'Question 1. I offer information and opinions', 
-						'Question 2. I summarise what is happening in the group.', 
-						'Question 3. When there is a problem I try to identify what is happening.',
-						'Question 4. I start the group working.',
-						'Question 5. I suggest directions the group can take.',
-						'Question 6. I listen actively.',
-						'Question 7. I give positive feedback to other members of the group.',
-						'Question 8. I compromise.',
-						'Question 9. I help relieve tension.',
-						'Question 10. I talk.',
-						'Question 11. I ensure that meeting times and places are arranged.',
-						'Question 12. I try to observe what is happening in the group.',
-						'Question 13. I try to help solve problems.',
-						'Question 14. I take responsibility for ensuring that tasks are completed.',
-						'Question 15. I like the group to be having a good time.'
+						"We try to have set procedures or protocols to ensure that things are orderly and run smoothly (e.g. minimize interruptions, everyone gets the opportunity to have their say).",
+						"We are quick to get on with the task on hand and do not spend too much time in the planning stage.",
+						"Our team feels that we are all in it together and shares responsibilities for the team's success or failure.",
+						"We have thorough procedures for agreeing on our objectives and planning the way we will perform our tasks.",
+						"Team members are afraid or do not like to ask others for help.",
+						"We take our team's goals and objectives literally, and assume a shared understanding.",
+						"The team leader tries to keep order and contributes to the task at hand.",
+						"We do not have fixed procedures, we make them up as the task or project progresses.",
+						"We generate lots of ideas, but we do not use many because we fail to listen to them and reject them without fully understanding them.
+",
+						"Team members do not fully trust the other team members and closely monitor others who are working on a specific task.",
+						"The team leader ensures that we follow the procedures, do not argue, do not interrupt, and keep to the point.",
+						"We enjoy working together; we have a fun and productive time.",
+						"We have accepted each other as members of the team.",
+						"The team leader is democratic and collaborative.",
+						"We are trying to define the goal and what tasks need to be accomplished.",
+						"Many of the team members have their own ideas about the process and personal agendas are rampant.",
+						"We fully accept each other's strengths and weakness.",
+						"We assign specific roles to team members (team leader, facilitator, time keeper, note taker, etc.).",
+						"We try to achieve harmony by avoiding conflict.",
+						"The tasks are very different from what we imagined and seem very difficult to accomplish.",
+						"There are many abstract discussions of the concepts and issues, which make some members impatient with these discussions.",
+						"We are able to work through group problems.",
+						"We argue a lot even though we agree on the real issues.",
+						"The team is often tempted to go above the original scope of the project.",
+						"We express criticism of others constructively",
+						"There is a close attachment to the team.",
+						"It seems as if little is being accomplished with the project's goals.",
+						"The goals we have established seem unrealistic.",
+						"Although we are not fully sure of the project's goals and issues, we are excited and proud to be on the team.",
+						"We often share personal problems with each other.",
+						"There is a lot of resisting of the tasks on hand and quality improvement approaches.",
+						"We get a lot of work done."
+						
 					);
 
 		
@@ -187,7 +225,7 @@ if($lti->is_valid()) {
 				
 				
 				echo '
-					<div class="input_container "><label class="radio-inline"><input type="radio" name="question'.$questionnum.'" class="question_input" id="question'.$questionnum.'_option_'.$scalenum.'" value="'.$scalenum.'" data-question_number="'.$questionnum.'" data-question_id="question'.$questionnum.'" data-option_num="'.$scalenum.'" '.$checked.'>'.$i.'</label></div>
+					<div class="input_container "><label class="radio-inline"><input type="radio" name="question'.$questionnum.'" class="question_input" id="question'.$questionnum.'_option_'.$scalenum.'" value="'.$scalenum.'" data-question_number="'.$questionnum.'" data-question_id="question'.$questionnum.'" data-option_num="'.$scalenum.'" '.$checked.'>'.getOptionName($scalenum).'</label></div>
 					
 				
 				';
@@ -204,6 +242,33 @@ if($lti->is_valid()) {
 		}
 		
 		echo '</div>'; // questions_container div close
+		
+		function getOptionName($scale_number){
+			
+			$option_name = '';
+			
+			switch ($scale_number) {
+			    case 1:
+			    	$option_name = "Almost never";
+			        break;
+			    case 2:
+			    	$option_name = "Seldom";
+			        break;
+			    case 3:
+			    	$option_name = "Occasionally";
+			        break;
+			    case 4:
+			    	$option_name = "Frequently";
+			        break;
+			    case 5:
+			    	$option_name = "Almost always";
+			        break;
+
+			}
+			
+			return $option_name;
+			
+		}
 
 		
 		
@@ -232,24 +297,62 @@ if($lti->is_valid()) {
 
 
 	?>
-     <button id='submitButton' type="submit" class="btn btn-primary btn-md">Submit</button>     <button id='feedbackButton' class="btn btn-default btn-md">Show Feedback</button>
 
 </form>
 
-<div class='score_text'>
-	<div class='leadership_score_text'></div>
-	<div class='team_score_text'></div>
+
+
+
+
+
+<div class='feedbackContainer'>
+	
+	
+<h4>Forming Stage:</h4>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-success" role="progressbar"  id='forming' aria-valuenow="40"
+  aria-valuemin="0" aria-valuemax="100" >
+  </div>
+</div>
+
+		<h4>Storming Stage:</h4>
+
+<div class="progress">
+
+  <div class="progress-bar progress-bar-info" role="progressbar"  id='storming' aria-valuenow="50"
+  aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+		<h4>Norming Stage:</h4>
+
+<div class="progress">
+
+  <div class="progress-bar progress-bar-warning" role="progressbar"  id='norming' aria-valuenow="60"
+  aria-valuemin="0" aria-valuemax="100" ></div>
+</div>
+
+		<h4>Performing Stage:</h4>
+
+
+<div class="progress">
+
+  <div class="progress-bar progress-bar-danger" role="progressbar"  id='performing' aria-valuenow="70"
+  aria-valuemin="0" aria-valuemax="100" >
+  </div>
+</div>
 </div>
 
 
+     <button id='saveButton' class="btn btn-primary btn-md">Save</button>     <button id='resetButton' class="btn btn-default btn-md">Reset</button>
 
 <style>
 	.input_container{
 		
-		width:55px;
+/* 		width:55px; */
 		height:35px;
 /* 		float:left; */
-		display:inline-block;
+/* 		display:inline-block; */
 		margin-right:50px;
 		padding-top:5px;
 		padding-left: 12px;
@@ -266,14 +369,28 @@ if($lti->is_valid()) {
 	}
 	
 	.question_page:nth-child(odd){
+	    background-color: #f7f7f7;
 
 	}
 	
 	.question_page {
 		font-family:Arial,Times New Roman, serif;
-		height:150px;
+		height:260px;
 		width:700px;
 		float:left;
+		overflow-y: hidden;
+		
+		
+		
+	    background-color: #e5e5e5;
+	    border-radius: 30px;
+	    padding-left: 20px;
+	    padding-right: 20px;
+	    padding-top: 20px;
+	    padding-bottom: 20px;
+
+
+	    margin:10px;
 	}
 	
 	.page_scroller{
@@ -287,7 +404,9 @@ if($lti->is_valid()) {
 		
 		width:auto;
 		
-		margin-bottom: 20px;		
+		margin-bottom: 20px;
+		
+			
 	}
 	
 	.questions_pagination_container{
@@ -297,6 +416,19 @@ if($lti->is_valid()) {
 	body{
 				overflow:hidden;
 				overflow-y: scroll;
+
+	}
+	
+	
+	
+	.feedback_text{
+		margin-top: 50px;
+		margin-bottom: 50px;
+	}
+	
+	.feedbackContainer{
+		
+		margin-top: 10px;
 
 	}
 </style>
@@ -339,7 +471,7 @@ if($lti->is_valid()) {
 			fullwidth = $('body').width();
 			$('div.page_container').width(fullwidth);
 			pagewidth = fullwidth;
-			$('div.question_page').width(pagewidth);
+			$('div.question_page').width(pagewidth-60);
 		}
 		
 		
@@ -374,8 +506,8 @@ if($lti->is_valid()) {
 			    }
 			}
 
-			calculateScore();
-				
+			var currentscore = calculateScore();
+			update_feedbackBars(currentscore);
 			
 		});
 		
@@ -392,7 +524,7 @@ if($lti->is_valid()) {
 		
 			currentPage = page;
 			
-			$('.currentpage_status').text((currentPage+1)+'/'+total_pages);
+			//$('.currentpage_status').text((currentPage+1)+'/'+total_pages);
 			
 			
 		}
@@ -433,12 +565,8 @@ if($lti->is_valid()) {
 			});
 			
 			var currentScore = calculateScore();
-			
-			survey_score = currentScore;
-			
-			status["leadership_score"] = currentScore.leadership;
-			status["team_score"] = currentScore.team;
-
+						
+			status["score"] = currentScore;
 			
 			status["questions_answered_count"] = answeredcount;
 			
@@ -467,10 +595,7 @@ if($lti->is_valid()) {
 				  
 				  console.log(response);
 				  console.log('blue');
-				  showpreviousresponse();
-				  constructScoreFeedback(currentScore);
 				  
-				  $('#feedbackButton').show();
 
 				 // showscore(currentScore);
 				  
@@ -495,7 +620,7 @@ if($lti->is_valid()) {
 		
 		function showpreviousresponse(){
 			
-			console.log('SHOW MEEE!!' + previous_response_status + '--'+currentStatus + '==='+showprevious);
+// 			console.log('SHOW MEEE!!' + previous_response_status + '--'+currentStatus + '==='+showprevious);
 			
 			if(previous_response_status == "finished" && current_response_status == showprevious){
 		
@@ -537,15 +662,18 @@ if($lti->is_valid()) {
 		
 		function calculateScore(){
 			
-			var currentTeamScore = 0;
-			var currentLeadershipScore = 0;
+			var score_formingStage = 0;
+			var score_stormingStage = 0;
+			var score_normingStage = 0;
+			var score_performingStage = 0;
+
 
 			var score_status = {};
 			
 			$('.question_container').each(function(){
 				$(this).find('.question_input').each(function(ind, obj){
 					if($(obj).is(':checked')){
-						score_status["question"+$(obj).data('question_number')] = $(obj).attr('data-option_num')-1;
+						score_status["question"+$(obj).data('question_number')] = parseInt($(obj).attr('data-option_num'));
 						return false;
 					}else{
 						score_status["question"+$(obj).data('question_number')] = 0;
@@ -559,49 +687,100 @@ if($lti->is_valid()) {
 								
 				switch (parseInt(key.replace('question',''))) {
 				    case 1:
-				    	currentLeadershipScore += val;
+				    	score_formingStage += val;
 				    	break;
 				    case 2: 
-				    	currentLeadershipScore += val;
+				    	score_stormingStage += val;
 				    	break;
 				    case 3:
-				    	currentLeadershipScore += val;
+				    	score_performingStage += val;
 				    	break;
 				    case 4: 
-				    	currentLeadershipScore += val;
+				    	score_normingStage += val;
 				    	break;
 				    case 5:
-				    	currentLeadershipScore += val;
+				    	score_formingStage += val;
 				    	break;
 				    case 6: 
-				    	currentTeamScore += val;
+				    	score_normingStage += val;
 				    	break;
 				    case 7:
-				    	currentTeamScore += val;
+				    	score_stormingStage += val;
 				    	break;
 				    case 8: 
-				    	currentTeamScore += val;
+				    	score_performingStage += val;
 				    	break;
 				    case 9:
-				    	currentTeamScore += val;
+				    	score_stormingStage += val;
 				    	break;
 				    case 10: 
-				    	currentTeamScore += val;
+				    	score_formingStage += val;
 				    	break;
 				    case 11:
-				    	currentLeadershipScore += val;
+				    	score_normingStage += val;
 				    	break;
 				    case 12: 
-				    	currentLeadershipScore += val;
+				    	score_performingStage += val;
 				    	break;
 				    case 13:
-				    	currentTeamScore += val;
+				    	score_normingStage += val;
 				    	break;
 				    case 14: 
-				    	currentLeadershipScore += val;
+				    	score_performingStage += val;
 				    	break;
 				    case 15:
-				    	currentTeamScore += val;
+				    	score_formingStage += val;
+				    	break;
+				    case 16:
+				    	score_stormingStage += val;
+				    	break;
+				    case 17: 
+				    	score_performingStage += val;
+				    	break;
+				    case 18:
+				    	score_formingStage += val;
+				    	break;
+				    case 19: 
+				    	score_normingStage += val;
+				    	break;
+				    case 20:
+				    	score_stormingStage += val;
+				    	break;
+				    case 21: 
+				    	score_formingStage += val;
+				    	break;
+				    case 22:
+				    	score_performingStage += val;
+				    	break;
+				    case 23: 
+				    	score_stormingStage += val;
+				    	break;
+				    case 24:
+				    	score_normingStage += val;
+				    	break;
+				    case 25: 
+				    	score_normingStage += val;
+				    	break;
+				    case 26:
+				    	score_performingStage += val;
+				    	break;
+				    case 27: 
+				    	score_formingStage += val;
+				    	break;
+				    case 28:
+				    	score_stormingStage += val;
+				    	break;
+				    case 29: 
+				    	score_formingStage += val;
+				    	break;
+				    case 30:
+				    	score_normingStage += val;
+				    	break;
+				    case 31: 
+				    	score_stormingStage += val;
+				    	break;
+				    case 32:
+				    	score_performingStage += val;
 				    	break;
 				}
 				
@@ -609,8 +788,10 @@ if($lti->is_valid()) {
 			
 			
 			return {
-				leadership:currentLeadershipScore,
-				team:currentTeamScore
+				forming:score_formingStage,
+				storming:score_stormingStage,
+				norming:score_normingStage,
+				performing:score_performingStage
 			};
 			
 		}
@@ -635,56 +816,28 @@ if($lti->is_valid()) {
 			
 		});
 
-		
-		
-		function constructScoreFeedback(score){
-			
-			
-			console.log(score.leadership + '----' + score.team);
-			
-			var leadership_container = $('.leadership_score_text');
-			var team_container = $('.team_score_text');
-			
-			leadership_container.empty();
-			
-			team_container.empty();
 
-			
-			if(score.leadership <= 13){
-				
-				leadership_container.append("<h5>Leadership</h5>"+"<p>You are not accustomed to providing leadership for the team.  This is acceptable as long as the team has a leader, but you should ensure that you are contributing to the decisions and directions of the team.  If you would like to increase your leadership skills, then you should begin to play an active part in decision making, help negotiate solutions when opinions differ, recognise and utilise the strengths of other team members, and set directions to ensure that tasks are completed on time and to the required standard.</p>");
-				
-			}else if(score.leadership >= 14 && score.leadership <= 19){
-				
-				leadership_container.append("<h5>Leadership</h5>"+"<p>You’ve generally been an effective team member although not always in a leadership role.  Remember that it is important to meet the needs of your team members whilst keeping the team on track.  Ensure everyone’s opinion is heard but remember the purpose/ task of the team.</p>");
-
-			}else{
-				
-				leadership_container.append("<h5>Leadership</h5>"+"<p>You have taken a strong leadership role in teams: providing direction, keeping the team on track, and ensuring that targets are met.  Do remember to include all members of the team in decisions and processes, and ensure that everyone’s voice is heard.</p>");
-
-				
-			}
+		function update_feedbackBars(score){
 			
 			
-			if(score.team <= 8){
+			console.log(score);
+			
+			var forming_percent = score.forming/40;
+			var storming_percent = score.storming/40;
+			var norming_percent = score.norming/40;
+			var performing_percent = score.performing/40;
+			
+			$.each(score,function(key, val){
 				
-				team_container.append("<h5>Teamwork</h5>"+"<p>You need to put more work into your teamwork skills.  This will probably come with experience and hopefully this module can set you up with models for more effective teamwork.  You will need to commit to the team in terms of sharing resources, directions, and consequences.  A well functioning team can achieve more than individuals but this takes commitment and practice.</p>");
-
-			}else if(score.team >= 9 && score.team <= 13){
+				console.log(key+'----'+val);
 				
-				team_container.append("<h5>Teamwork</h5>"+"<p>You are an effective team person.  You can improve your skills by working through this online module and remembering to cooperate with all team members, share ideas and responsibilities, identify and resolve any conflict, and most importantly, display a commitment to making the team function effectively. </p>");
-				
-			}else{
-				
-				team_container.append("<h5>Teamwork</h5>"+"<p>You are a very effective team person.  Enhance your skills by working through this online module and perhaps mentoring other members of your team who are still learning to be effective team members.</p>");
+				$('#'+key).css({width:((val/40)*100)+'%'});
 				
 				
-			}
+			});
 			
 			
 		}
-		
-		
 		
 		
 		
