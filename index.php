@@ -1,6 +1,6 @@
 <?php require_once('inc/header.php');
 if($lti->is_valid()) {
-			echo '<p>LTI Valid, Dev Version - DO NOT USE IN COURSES - contact UQx Technical Team</p>';
+			echo '<p><span style="color:#00ea05"><b>LTI Valid</b></span> , Dev Version - <span style="color:red"><b> DO NOT USE IN LIVE COURSES </b></span> - contact UQx Technical Team</p>';
 		} else {
 			echo '<p>LTI Invalid - contact UQx Technical Team</p>';
 			die();
@@ -26,7 +26,6 @@ if($lti->is_valid()) {
 		
 		margin-right:60px;
 		margin-bottom:50px;
-		
 	}
 	
 	
@@ -37,21 +36,6 @@ if($lti->is_valid()) {
 </head> 
 <body>
 	
-	<div class='feedback_text'>
-	
-	<p>This questionnaire is to help you assess what stage your team normally operates. It is based on the <a href="http://www.nwlink.com/~donclark/leader/leadtem2.html"><em>Tuckman Model</em></a> of&nbsp; <strong>Forming, Storming, Norming, and Performing</strong>. The lowest score possible for a stage is 8 (Almost never) while the highest score possible for a stage is 40 (Almost always).</p>
-<p>The highest of the four scores indicates which stage you perceive your team to normally operates in. If your highest score is 32 or more, it is a strong indicator of the stage your team is in.</p>
-<p>The lowest of the three scores is an indicator of the stage your team is least like. If your lowest score is 16 or less, it is a strong indicator that your team does not operate this way.</p>
-<p>If two of the scores are close to the same, you are probably going through a transition phase, except:</p>
-<ul>
-<li>If you score high in both the Forming and Storming Phases then you are in the Storming Phase</li>
-<li>If you score high in both the Norming and Performing Phases then you are in the Performing Stage</li>
-</ul>
-<p>If there is only a small difference between three or four scores, then this indicates that you have no clear perception of the way your team operates, the team's performance is highly variable, or that you are in the storming phase (this phase can be extremely volatile with high and low points).</p>
-	<b>AMMEND THIS TEXT, IT IS COPIED FROM - http://www.nwlink.com/~donclark/leader/teamsuv.html AS A PLACEHOLDER</b>
-
-	
-</div>
 
 
 	
@@ -344,7 +328,9 @@ if($lti->is_valid()) {
 </div>
 
 
-     <button id='saveButton' class="btn btn-primary btn-md">Save</button>     <button id='resetButton' class="btn btn-default btn-md">Reset</button>
+     <button id='submitButton' class="btn btn-primary btn-md">Submit</button>     <button id='resetButton' class="btn btn-default btn-md">Reset</button>  
+
+
 
 <style>
 	.input_container{
@@ -431,6 +417,16 @@ if($lti->is_valid()) {
 		margin-top: 10px;
 
 	}
+	
+	.loadingicon{
+		
+		font-size: 18px;
+		margin-top: 20px;
+/* 		display:inline-block; */
+		
+		
+	}
+	
 </style>
 
 <script type='text/javascript'>
@@ -505,9 +501,6 @@ if($lti->is_valid()) {
 			      }));   
 			    }
 			}
-
-			var currentscore = calculateScore();
-			update_feedbackBars(currentscore);
 			
 		});
 		
@@ -534,9 +527,13 @@ if($lti->is_valid()) {
 		var currentStatus = 'unfinished';
 		var survey_score = null;
 		
-		$('#saveButton').click(function(event){
+		$('#submitButton').click(function(event){
 			
-			save();
+			$(this).addClass('disabled');
+			
+			
+			var data = check();
+			save(data);
 
 		});
 		
@@ -546,7 +543,7 @@ if($lti->is_valid()) {
 			
 		});
 		
-		function save(){
+		function check(){
 			
 			var status = {};
 			var statusString;
@@ -595,10 +592,18 @@ if($lti->is_valid()) {
 			
 			statusString = JSON.stringify(status);
 			
+			return statusString;
+			
+		}
+		
+		function save(data_to_save){
+			
+			
+			
 			var data = {'data':{}};
 			data['sid'] = '<?php echo $sid ?>';
 			data['user_id'] = '<?php echo $lti->user_id(); ?>';
-			data['data'] = statusString;
+			data['data'] = data_to_save;
 			$.ajax({
 			  type: "POST",
 			  url: "savedata.php",
@@ -608,8 +613,12 @@ if($lti->is_valid()) {
 				  console.log(response);
 				  console.log('blue');
 				  
-
-				 // showscore(currentScore);
+				  $("#submitButton").removeClass('disabled');
+// 				 $("#submitButton").empty().append("Submit");
+			
+				 
+				var currentscore = calculateScore();
+				update_feedbackBars(currentscore);
 				  
 			  },
 			  error: function(error){
@@ -618,6 +627,8 @@ if($lti->is_valid()) {
 				  console.log(error);
 			  }
 			});
+			
+			
 
 			
 		}
@@ -626,6 +637,14 @@ if($lti->is_valid()) {
 			
 			console.log('reset');
 			
+			showpage(1);
+			
+			$('.questions_pagination').twbsPagination('destroy');
+			$('.questions_pagination').twbsPagination($.extend(opts, {
+			          startPage: 1
+			})); 
+			      
+			 
 			
 			$('.question_container').each(function(){
 				$(this).find('.question_input').each(function(ind, obj){
@@ -633,7 +652,8 @@ if($lti->is_valid()) {
 				});				
 			});
 			
-			save();
+			var blank_data = check();
+			save(blank_data);
 			
 			update_feedbackBars(calculateScore());
 			
