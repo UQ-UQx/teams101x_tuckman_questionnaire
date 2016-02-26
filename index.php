@@ -1,6 +1,14 @@
 <?php require_once('inc/header.php');
 if($lti->is_valid()) {
-			echo '<p><span style="color:#00ea05"><b>LTI Valid</b></span> , Dev Version - <span style="color:red"><b> DO NOT USE IN LIVE COURSES </b></span> - contact UQx Technical Team</p>';
+	
+	
+	
+// RUNNING LIVE - DO NOT EDIT CODE HERE!!!!!!!!
+
+// edit in tools-dev production vm, test fully, push to git hub and then pull to tools.
+
+
+// 			echo '<p><span style="color:#00ea05"><b>LTI Valid</b></span> , Dev Version - <span style="color:red"><b> DO NOT USE IN LIVE COURSES </b></span> - contact UQx Technical Team</p>';
 		} else {
 			echo '<p>LTI Invalid - contact UQx Technical Team</p>';
 			die();
@@ -451,7 +459,7 @@ if($lti->is_valid()) {
 			
 			var current_score = calculateScore();
 			
-			constructScoreFeedback(current_score);
+// 			constructScoreFeedback(current_score);
 			showpage_feature = false;
 			$('#feedbackButton').show();
 
@@ -531,6 +539,8 @@ if($lti->is_valid()) {
 			
 			$(this).addClass('disabled');
 			
+				  $(this).prop("disabled", true);
+ 				 $(this).empty().append("Submitting <i class='fa fa-spinner fa-pulse'></i>");
 			
 			var data = check();
 			save(data);
@@ -603,7 +613,14 @@ if($lti->is_valid()) {
 			var data = {'data':{}};
 			data['sid'] = '<?php echo $sid ?>';
 			data['user_id'] = '<?php echo $lti->user_id(); ?>';
+			data['form'] = $('#questionnaire_form').serialize();
 			data['data'] = data_to_save;
+			
+			  data['lti_id'] = '<?php echo $lti->lti_id(); ?>';
+			  data['lis_outcome_service_url'] = '<?php echo $lti->grade_url(); ?>';
+			  data['lis_result_sourcedid'] = '<?php echo $lti->result_sourcedid(); ?>';
+
+			console.log(data)
 			$.ajax({
 			  type: "POST",
 			  url: "savedata.php",
@@ -614,8 +631,17 @@ if($lti->is_valid()) {
 				  console.log('blue');
 				  
 				  $("#submitButton").removeClass('disabled');
-// 				 $("#submitButton").empty().append("Submit");
+				  $("#submitButton").prop("disabled", false);
+ 				 $("#submitButton").empty().append("Submit");
 			
+				
+				
+				
+				
+				
+				
+				
+				
 				 
 				var currentscore = calculateScore();
 				update_feedbackBars(currentscore);
@@ -653,6 +679,7 @@ if($lti->is_valid()) {
 			});
 			
 			var blank_data = check();
+			
 			save(blank_data);
 			
 			update_feedbackBars(calculateScore());
