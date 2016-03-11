@@ -8,7 +8,7 @@ if($lti->is_valid()) {
 // edit in tools-dev production vm, test fully, push to git hub and then pull to tools.
 
 
- 			echo '<p><span style="color:#00ea05"><b>LTI Valid</b></span> , Dev Version - <span style="color:red"><b> DO NOT USE IN LIVE COURSES </b></span> - contact UQx Technical Team</p>';
+ 			//echo '<p><span style="color:#00ea05"><b>LTI Valid</b></span> , Dev Version - <span style="color:red"><b> DO NOT USE IN LIVE COURSES </b></span> - contact UQx Technical Team</p>';
 		} else {
 			echo '<p>LTI Invalid - contact UQx Technical Team</p>';
 			die();
