@@ -5,13 +5,15 @@ require_once('OAuth.php');
 
 class Lti {
 
+    // set to FALSE on production
+
 	protected $testing = false;
 	protected $config = array();
-	
+
 	protected $ltivars = array();
 	protected $valid = false;
 	protected $errors = '';
-	
+
 	function __construct($config, $display_errors=false) {
 		if($display_errors) {
 			$this->display_errors();
@@ -51,50 +53,57 @@ class Lti {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	function setltivars($vars) {
 		$this->ltivars = $vars;
 	}
-	
+
 	function resource_id(){
-				
+
 		if(isset($this->ltivars["resource_link_id"])) {
 			return $this->ltivars["resource_link_id"];
 		}
 		return 'Unknown resource_link_id';
 
 	}
-	
+
 	function display_errors() {
 		ini_set('display_errors',1);
 		ini_set('display_startup_errors',1);
 		error_reporting(-1);
 	}
-	
+
 	function get_errors() {
 		return $this->errors;
 	}
-	
+
+	function is_dev(){
+		if($this->testing){
+			return true;
+		}
+		return false;
+	}
+
 	function is_valid() {
 		return $this->valid;
 	}
-	
+
 	function user_id() {
 		if(isset($this->ltivars['user_id'])) {
 			return $this->ltivars['user_id'];
 		}
 		return 'Unknown user';
 	}
-	
+
 	function user_roles() {
 		if(isset($this->ltivars['roles'])) {
 			return $this->ltivars['roles'];
 		}
 		return 'Unknown roles';
 	}
-	
+
 	function grade_url(){
 		if(isset($this->ltivars["lis_outcome_service_url"])) {
 			return $this->ltivars["lis_outcome_service_url"];
@@ -102,7 +111,7 @@ class Lti {
 		return 'No Grade URL';
 
 	}
-	
+
 	function result_sourcedid(){
 		if(isset($this->ltivars["lis_result_sourcedid"])) {
 			return $this->ltivars["lis_result_sourcedid"];
@@ -110,14 +119,14 @@ class Lti {
 		return 'No Result SourcedID';
 
 	}
-	
+
 	function lti_id() {
-		if(isset($this->ltivars["oauth_consumer_key"])) {
-			return $this->ltivars["oauth_consumer_key"];
+		if(isset($this->ltivars["resource_link_id"])) {
+			return $this->ltivars["resource_link_id"];
 		}
-		return 'Unknown user';
+		return 'Unknown resource link id (lti id)';
 	}
-	
+
 	function requirevalid() {
 		if($this->valid) {
 			return;
@@ -126,31 +135,52 @@ class Lti {
 			die();
 		}
 	}
-	
+
 	function calldata() {
 		return $this->ltivars;
 	}
-	
+
+	function course_id() {
+		if(isset($this->ltivars["context_id"])) {
+			return $this->ltivars["context_id"];
+		}
+		return 'Unknown context id (course id)';
+	}
+
+	function lti_consumer_key(){
+		if(isset($this->ltivars["oauth_consumer_key"])) {
+			return $this->ltivars["oauth_consumer_key"];
+		}
+		return 'Unknown oauth consumer key';
+	}
+
+
 	function usedummydata() {
 		$this->ltivars = array(
-		    'launch_presentation_return_url'=>'',
-		    'lti_version'=>'LTI-1p0',
-		    'user_id'=>'student',
-		    'roles'=>'Instructor',
-		    'oauth_nonce'=>'60581087546369126111399262942',
-		    'oauth_timestamp'=>'1399262942',
-		    'lis_result_sourcedid'=>'UQx/ceit1001/2014_1:-i4x-UQx-ceit1001-lti-35fd269993224010adbacd8cd05f0043:student',
-		    'context_id'=>'UQx/ceit1001/2014_1',
-		    'oauth_consumer_key'=>'test',
-		    'resource_link_id'=>'-i4x-UQx-ceit1001-lti-35fd269993224010adbacd8cd05f0043',
-		    'oauth_signature_method'=>'HMAC-SHA1',
-		    'oauth_version'=>'1.0',
-		    'oauth_signature'=>'dSffHcwBbfyR01HQloYJIQRu9T0',
-		    'lti_message_type'=>'basic-lti-launch-request',
-		    'oauth_callback'=>'about:blank',
+
+			'custom_component_display_name' => 'LTI Consumer',
+			'lti_version' => 'LTI-1p0',
+			'oauth_nonce' => '106095563246583917761495495665',
+			'resource_link_id' => 'courses.edx.org-aa766098b5a94a738b54e89caf3a8972_4_1',
+			'context_id' => 'course-v1:UQx+COURSECODE_4x+2T2017',
+			'oauth_signature_method' => 'HMAC-SHA1',
+			'oauth_version' => '1.0',
+			'oauth_signature' => 'iFUDZD4AYMhKKgHLf/LeXpNZcSA=',
+			'lti_message_type' => 'basic-lti-launch-request',
+			'launch_presentation_return_url' => '',
+			'user_id' => 'f770caedc6d860f087297810891526d7_4_u18',
+			'roles' => 'Instructor',
+			'oauth_consumer_key' => 'uqx',
+			'lis_result_sourcedid' => 'course-v1%3AUQx%2BCOURSECODEx%2B2T2017:courses.edx.org-aa766098b5a94a738b54e89caf3a8973:f770caedc6d860f087297810891526d7',
+			'launch_presentation_locale' => 'en',
+			'oauth_timestamp' => '1495495665',
+			'oauth_callback' => 'about:blank',
+			'custom_variable_by_user_bool'=>'true',
+			'custom_variable_by_user_string'=>"woo hoo i have LTI support"
+			
 		);
 	}
-	
+
 }
 
 /**

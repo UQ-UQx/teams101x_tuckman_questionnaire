@@ -69,6 +69,7 @@ if($lti->is_valid()) {
 		//get lti id first as defined by edx
 
 		$lti_id = $lti->resource_id();
+		$course_id = $lti->course_id();
 
 		//open a container for a previous survey id;
 		$previous_survey_id = null;
@@ -97,7 +98,7 @@ if($lti->is_valid()) {
 
 		//construct survey id, by combining lti id and user id
 
-		$sid = $lti_id.'-lti-uid-'.$lti->user_id();
+		$sid = $course_id.'-'.$lti_id.'-'.$lti->user_id();
 
 
 		//define scale of the survey and questions
